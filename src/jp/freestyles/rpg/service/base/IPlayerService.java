@@ -1,5 +1,5 @@
 package jp.freestyles.rpg.service.base;
 
-public interface IService {
+public interface IPlayerService {
     void execute();
 }

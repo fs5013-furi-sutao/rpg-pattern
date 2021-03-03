@@ -3,10 +3,10 @@ package jp.freestyles.rpg.magic;
 import java.util.concurrent.ThreadLocalRandom;
 
 import jp.freestyles.rpg.magic.base.IMagic;
-import jp.freestyles.rpg.magic.type.Heelable;
+import jp.freestyles.rpg.magic.type.Attackable;
 import jp.freestyles.rpg.service.base.IMagicService;
 
-public class Heel implements IMagic, Heelable {
+public class Thunder implements IMagic, Attackable {
     
     private static final int CONSUMPTION_MP = 20;
 
@@ -16,8 +16,12 @@ public class Heel implements IMagic, Heelable {
 
     private IMagicService service;
 
-    public void effect() {
+    public Thunder(IMagicService service) {
+        this.service = service;
+    }
 
+    public void effect() {
+        
     }
 
     public int getDamageValue() {

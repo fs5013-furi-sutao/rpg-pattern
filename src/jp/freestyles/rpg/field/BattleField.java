@@ -1,21 +1,22 @@
 package jp.freestyles.rpg.field;
 
-import jp.freestyles.rpg.injection.FighterInjector;
-import jp.freestyles.rpg.injection.PriestInjector;
-import jp.freestyles.rpg.injection.base.IServiceInjector;
+import java.util.concurrent.ThreadLocalRandom;
+
+import jp.freestyles.rpg.injection.player.FighterInjector;
+import jp.freestyles.rpg.injection.player.PriestInjector;
+import jp.freestyles.rpg.injection.base.IPlayerServiceInjector;
 import jp.freestyles.rpg.player.base.IPlayer;
 
 public class BattleField {
 
         public void play() {
 
-                IServiceInjector priestInjector = new PriestInjector();
+                IPlayerServiceInjector priestInjector = new PriestInjector();
                 IPlayer priest = priestInjector.getPlayer();
-                priest.attack();
 
-                IServiceInjector fighterInjector = new FighterInjector();
+                IPlayerServiceInjector fighterInjector = new FighterInjector();
                 IPlayer fighter = fighterInjector.getPlayer();
-                fighter.attack();
+                priest.attack(fighter);
         }
 
 }
