@@ -7,7 +7,7 @@ import jp.freestyles.rpg.service.StandardPlayerService;
 
 public class FighterInjector implements IPlayerServiceInjector {
 
-    public IPlayer getPlayer() {
-        return new Fighter(new StandardPlayerService());
+    public IPlayer getPlayer(String name) {
+        return new Fighter(new StandardPlayerService(), name);
     }
 }

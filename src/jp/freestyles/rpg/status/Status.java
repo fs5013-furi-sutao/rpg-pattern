@@ -1,5 +1,7 @@
 package jp.freestyles.rpg.status;
 
+import jp.freestyles.rpg.magic.base.IMagic;
+
 public class Status {
 
     private int maxHp;
@@ -44,4 +46,26 @@ public class Status {
         System.out.format(
             "MaxHP=%d, HP=%d, MP=%d %n", this.maxHp, this.hp, this.mp);
 	}
+
+	public boolean isFullFillMp(int consumptionMp) {
+		return this.mp >= consumptionMp;
+	}
+
+	public String getContents() {
+		return String.format(
+            "MaxHP=%d, HP=%d, MP=%d", this.maxHp, this.hp, this.mp);
+	}
+
+	public void minusHp(int damageValue) {
+        this.hp -= damageValue;
+        if (this.hp < 0) this.hp = 0;
+	}
+
+	public boolean isEnoughLossForHeeling(IMagic magic, Status status) {
+		return magic.teachHowMuchHealHp() < status.teachDecreasedHp();
+	}
+
+    private int teachDecreasedHp() {
+        return this.maxHp - this.hp;
+    }
 }

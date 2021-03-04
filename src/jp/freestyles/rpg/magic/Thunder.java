@@ -4,7 +4,9 @@ import java.util.concurrent.ThreadLocalRandom;
 
 import jp.freestyles.rpg.magic.base.IMagic;
 import jp.freestyles.rpg.magic.type.Attackable;
+import jp.freestyles.rpg.magic.type.Heelable;
 import jp.freestyles.rpg.service.base.IMagicService;
+import jp.freestyles.rpg.status.Status;
 
 public class Thunder implements IMagic, Attackable {
     
@@ -20,11 +22,26 @@ public class Thunder implements IMagic, Attackable {
         this.service = service;
     }
 
-    public void effect() {
+    public void effect(Status status) {
         
     }
 
     public int getDamageValue() {
         return ThreadLocalRandom.current().nextInt(MIN_DAMAGE, MAX_DAMAGE + 1);
+    }
+
+    @Override
+    public boolean isFullfillMp(Status status) {
+        return status.isFullFillMp(CONSUMPTION_MP);
+    }
+
+    @Override
+    public boolean isAttackable() {
+        return this instanceof Attackable;
+    }
+
+    @Override
+    public boolean isHeelable() {
+        return this instanceof Heelable;
     }
 }

@@ -7,7 +7,7 @@ import jp.freestyles.rpg.service.StandardPlayerService;
 
 public class PriestInjector implements IPlayerServiceInjector {
 
-    public IPlayer getPlayer() {
-        return new Priest(new StandardPlayerService());
+    public IPlayer getPlayer(String name) {
+        return new Priest(new StandardPlayerService(), name);
     }
 }
