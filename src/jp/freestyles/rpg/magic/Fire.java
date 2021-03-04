@@ -4,7 +4,7 @@ import java.util.concurrent.ThreadLocalRandom;
 
 import jp.freestyles.rpg.magic.base.IMagic;
 import jp.freestyles.rpg.magic.type.Attackable;
-import jp.freestyles.rpg.magic.type.Heelable;
+import jp.freestyles.rpg.magic.type.Healable;
 import jp.freestyles.rpg.service.base.IMagicService;
 import jp.freestyles.rpg.status.Status;
 
@@ -22,10 +22,10 @@ public class Fire implements IMagic, Attackable {
         this.service = service;
     }
 
-    public void effect(Status status) {
+    public void effect(Status heroStatus, Status enemyStatus) {
         chant();
         int damage = getDamageValue();
-        status.minusHp(damage);
+        enemyStatus.minusHp(damage);
         showDamage(damage);
     }
 
@@ -53,7 +53,7 @@ public class Fire implements IMagic, Attackable {
 
     @Override
     public boolean isHeelable() {
-        return this instanceof Heelable;
+        return this instanceof Healable;
     }
 
     @Override

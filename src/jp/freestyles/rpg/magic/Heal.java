@@ -2,11 +2,11 @@ package jp.freestyles.rpg.magic;
 
 import jp.freestyles.rpg.magic.base.IMagic;
 import jp.freestyles.rpg.magic.type.Attackable;
-import jp.freestyles.rpg.magic.type.Heelable;
+import jp.freestyles.rpg.magic.type.Healable;
 import jp.freestyles.rpg.service.base.IMagicService;
 import jp.freestyles.rpg.status.Status;
 
-public class Heel implements IMagic, Heelable {
+public class Heal implements IMagic, Healable {
     
     private static final int CONSUMPTION_MP = 20;
 
@@ -14,10 +14,6 @@ public class Heel implements IMagic, Heelable {
     private static final int HP_FOR_RECOVERY = 50;
 
     private IMagicService service;
-
-    public void effect(Status status) {
-
-    }
 
     public int getDamageValue() {
         return 0;
@@ -39,6 +35,12 @@ public class Heel implements IMagic, Heelable {
 
     @Override
     public boolean isHeelable() {
-        return this instanceof Heelable;
+        return this instanceof Healable;
+    }
+
+    @Override
+    public void effect(Status heroStatus, Status enemyStatus) {
+        // TODO Auto-generated method stub
+
     }
 }

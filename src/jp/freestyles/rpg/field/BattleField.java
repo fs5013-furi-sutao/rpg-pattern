@@ -6,15 +6,33 @@ import jp.freestyles.rpg.injection.base.IPlayerServiceInjector;
 import jp.freestyles.rpg.player.base.IPlayer;
 
 public class BattleField {
+    
+    private int turnCount;
 
-        public void play() {
+    public BattleField() {
+        this.turnCount = 1;
+    }
 
-                IPlayerServiceInjector priestInjector = new PriestInjector();
-                IPlayer priest = priestInjector.getPlayer("良い僧侶");
+    public void play() {
 
-                IPlayerServiceInjector fighterInjector = new FighterInjector();
-                IPlayer fighter = fighterInjector.getPlayer("良い戦士");
-                priest.attack(fighter);
+        IPlayerServiceInjector priestInjector = new PriestInjector();
+        IPlayer priest = priestInjector.getPlayer("John Doe");
+
+        IPlayerServiceInjector fighterInjector = new FighterInjector();
+        IPlayer fighter = fighterInjector.getPlayer("Mick Jack");
+
+        for (int i = 0; i < 10; i++) {
+            showTurnCount();
+            priest.attack(fighter);
+            System.out.println();
+            this.turnCount++;
         }
+    }
+
+    private void showTurnCount() {
+        System.out.format(
+            "%d ターン目: ========== %n", 
+            this.turnCount);
+    }
 
 }

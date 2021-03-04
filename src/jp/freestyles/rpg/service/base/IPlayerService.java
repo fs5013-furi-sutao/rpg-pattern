@@ -1,5 +1,7 @@
 package jp.freestyles.rpg.service.base;
 
+import jp.freestyles.rpg.status.Status;
+
 public interface IPlayerService {
-    void execute();
+	void attack(Status status, Status outStatus);
 }

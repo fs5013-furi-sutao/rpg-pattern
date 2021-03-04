@@ -77,7 +77,7 @@ public class MagicSet {
 
             if (magic.isHeelable() 
                 && magic.isFullfillMp(status) 
-                && status.isEnoughLossForHeeling(magic, status)) {
+                && status.isEnoughLossForHealing(magic, status)) {
                 
                     this.usefulHeelableMagics.add(magic);
             }

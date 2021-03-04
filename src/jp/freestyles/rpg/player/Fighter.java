@@ -5,6 +5,8 @@ import jp.freestyles.rpg.player.base.IPlayer;
 import jp.freestyles.rpg.status.Status;
 import jp.freestyles.rpg.service.base.IPlayerService;
 
+import static jp.freestyles.rpg.player.config.PlayerConfig.FIGHTER;
+
 public class Fighter implements IPlayer {
 
     private String name;
@@ -16,7 +18,14 @@ public class Fighter implements IPlayer {
     public Fighter(IPlayerService service, String name) {
         this.name = name;
         this.service = service;
-        this.status = new Status.Builder().maxHp(100).hp(10).mp(12).build();
+        
+        this.status = new Status.Builder(name)
+            .breed(FIGHTER.breed())
+            .maxHp(FIGHTER.maxHp())
+            .hp(FIGHTER.hp())
+            .mp(FIGHTER.mp())
+            .build();
+        
         this.magics = new MagicSet();
     }
 
@@ -33,7 +42,11 @@ public class Fighter implements IPlayer {
             System.out.println("Heel が使えるよ");
         }
 
-        this.status.show();
-        this.service.execute();
+        //this.status.show();
+        this.service.attack(this.status, enemy.outStatus());
+    }
+
+    public Status outStatus() {
+        return this.status;
     }
 }

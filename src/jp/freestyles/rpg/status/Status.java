@@ -4,14 +4,27 @@ import jp.freestyles.rpg.magic.base.IMagic;
 
 public class Status {
 
+    private String name;
+    private String breed;
     private int maxHp;
     private int hp;
     private int mp;
 
     public static class Builder {
+        private String name;
+        private String breed;
         private int maxHp;
         private int hp;
         private int mp;
+
+        public Builder(String name) {
+            this.name = name;
+        }
+
+        public Builder breed(String breed) {
+            this.breed = breed;
+            return this;
+        }
 
         public Builder maxHp(int maxHp) {
             this.maxHp = maxHp;
@@ -29,7 +42,11 @@ public class Status {
         }
 
         public Status build() {
-            if (this.maxHp == 0 || this.hp == 0 || this.mp == 0) {
+            if (this.name == null
+                || this.breed == null
+                || this.maxHp == 0 
+                || this.hp == 0) {
+
                 throw new NullPointerException();
             }
             return new Status(this);
@@ -37,14 +54,15 @@ public class Status {
     }
 
     private Status(Builder builder) {
+        this.name = builder.name;
+        this.breed = builder.breed;
         this.maxHp = builder.maxHp;
         this.hp = builder.hp;
         this.mp = builder.mp;
     }
 
 	public void show() {
-        System.out.format(
-            "MaxHP=%d, HP=%d, MP=%d %n", this.maxHp, this.hp, this.mp);
+        System.out.println(getContents());
 	}
 
 	public boolean isFullFillMp(int consumptionMp) {
@@ -53,7 +71,8 @@ public class Status {
 
 	public String getContents() {
 		return String.format(
-            "MaxHP=%d, HP=%d, MP=%d", this.maxHp, this.hp, this.mp);
+            "%s [%s] MaxHP=%d, HP=%d, MP=%d", 
+            this.name, this.breed, this.maxHp, this.hp, this.mp);
 	}
 
 	public void minusHp(int damageValue) {
@@ -61,11 +80,15 @@ public class Status {
         if (this.hp < 0) this.hp = 0;
 	}
 
-	public boolean isEnoughLossForHeeling(IMagic magic, Status status) {
+	public boolean isEnoughLossForHealing(IMagic magic, Status status) {
 		return magic.teachHowMuchHealHp() < status.teachDecreasedHp();
 	}
 
     private int teachDecreasedHp() {
         return this.maxHp - this.hp;
     }
+
+	public String outName() {
+		return this.name;
+	}
 }

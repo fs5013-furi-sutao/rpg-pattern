@@ -9,6 +9,8 @@ import jp.freestyles.rpg.player.base.IPlayer;
 import jp.freestyles.rpg.service.base.IPlayerService;
 import jp.freestyles.rpg.status.Status;
 
+import static jp.freestyles.rpg.player.config.PlayerConfig.WIZARD;;
+
 public class Wizard implements IPlayer {
 
     private String name;
@@ -20,7 +22,14 @@ public class Wizard implements IPlayer {
     public Wizard(IPlayerService service, String name) {
         this.name = name;
         this.service = service;
-        this.status = new Status.Builder().maxHp(100).hp(10).mp(12).build();
+        
+        this.status = new Status.Builder(name)
+            .breed(WIZARD.breed())
+            .maxHp(WIZARD.maxHp())
+            .hp(WIZARD.hp())
+            .mp(WIZARD.mp())
+            .build();
+        
         this.magics = new MagicSet();
 
         IMagicServiceInjector fireInjector = new FireInjector();
@@ -45,7 +54,13 @@ public class Wizard implements IPlayer {
             System.out.println("Heel が使えるよ");
         }
 
-        this.status.show();
-        this.service.execute();
+        //this.status.show();
+        this.service.attack(this.status, enemy.outStatus());
+    }
+
+    @Override
+    public Status outStatus() {
+        // TODO Auto-generated method stub
+        return null;
     }
 }
