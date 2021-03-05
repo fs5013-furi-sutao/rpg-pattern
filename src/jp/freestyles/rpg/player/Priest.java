@@ -8,6 +8,7 @@ import jp.freestyles.rpg.magic.base.IMagic;
 import jp.freestyles.rpg.player.base.IPlayer;
 import jp.freestyles.rpg.service.base.IPlayerService;
 import jp.freestyles.rpg.status.Status;
+import static jp.freestyles.rpg.util.RandomParameterCreator.generateRandomValue;
 
 import static jp.freestyles.rpg.player.config.PlayerConfig.PRIEST;
 
@@ -21,10 +22,12 @@ public class Priest implements IPlayer {
     public Priest(IPlayerService service, String name) {
         this.service = service;
 
+        int randomizedHp = 
+            generateRandomValue(PRIEST.maxHpMin(), PRIEST.maxHpMax());
         this.status = new Status.Builder(name)
             .breed(PRIEST.breed())
-            .maxHp(PRIEST.maxHp())
-            .hp(PRIEST.hp())
+            .maxHp(randomizedHp)
+            .hp(randomizedHp)
             .mp(PRIEST.mp())
             .build();
 
@@ -34,31 +37,28 @@ public class Priest implements IPlayer {
         this.magics.addMagic(new Poison());
     }
 
-    private void showStatus(Status status) {
-        status.show();
+    @Override
+    public void showStatus() {
+        this.status.show();
     }
 
     public void attack(IPlayer enemy) {
 
-        showStatus(this.status);
-        showStatus(enemy.outStatus());
         showDaclareAttack();
 
-        // IMagic attackableMagic = this.magics.getRandomUsefulAttackableMagic(this.status);
-        // if (attackableMagic != null) {
-        //     System.out.println(attackableMagic.toString());
-        //     attackableMagic.effect(this.status, enemy.outStatus());
-        //     return;
-        // }
+        IMagic heelableMagic = this.magics.getRandomUsefulHeelableMagic(this.status);
+        if (heelableMagic != null) {
+            heelableMagic.effect(this.status, enemy.outStatus());
+            return;
+        }
 
-        // IMagic heelableMagic = this.magics.getRandomUsefulHeelableMagic(this.status);
-        // if (heelableMagic != null) {
-        //     System.out.println(heelableMagic.toString());
-        //     heelableMagic.effect(this.status, enemy.outStatus());
-        //     return;
-        // }
+        IMagic attackableMagic = this.magics.getRandomUsefulAttackableMagic(this.status);
+        if (attackableMagic != null) {
+            attackableMagic.effect(this.status, enemy.outStatus());
+            return;
+        }
 
-        //this.status.show();
+        // this.status.show();
         this.service.attack(this.status, enemy.outStatus());
     }
 
@@ -69,5 +69,10 @@ public class Priest implements IPlayer {
     @Override
     public Status outStatus() {
         return this.status;
+    }
+
+    @Override
+    public boolean isDead() {
+        return this.status.isHpEmpty();
     }
 }

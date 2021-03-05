@@ -21,32 +21,43 @@ public class Fighter implements IPlayer {
         
         this.status = new Status.Builder(name)
             .breed(FIGHTER.breed())
-            .maxHp(FIGHTER.maxHp())
-            .hp(FIGHTER.hp())
+            .maxHp(FIGHTER.maxHpMin())
+            .hp(FIGHTER.maxHpMax())
             .mp(FIGHTER.mp())
             .build();
         
         this.magics = new MagicSet();
     }
 
-    private void showStatus() {
-        String statusContents = this.status.getContents();
-        System.out.format("[%s] { %s } %n", this.name, statusContents);
-    }
-
     public void attack(IPlayer enemy) {
 
-        showStatus();
-
-        if (this.magics.hasHeelMagic()) {
-            System.out.println("Heel が使えるよ");
-        }
-
-        //this.status.show();
+        showDaclareAttack();
         this.service.attack(this.status, enemy.outStatus());
+    }
+
+    @Override
+    public void showStatus() {
+        this.status.show();
+    }
+
+    private void showDaclareAttack() {
+        System.out.format("%s の攻撃 %n", this.status.outName());
     }
 
     public Status outStatus() {
         return this.status;
+    }
+
+    public String outName() {
+        return this.name;
+    }
+
+    public MagicSet outMagics() {
+        return this.magics;
+    }
+
+    @Override
+    public boolean isDead() {
+        return this.status.isHpEmpty();
     }
 }

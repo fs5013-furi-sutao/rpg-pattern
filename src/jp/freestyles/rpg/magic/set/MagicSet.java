@@ -37,7 +37,7 @@ public class MagicSet {
     public boolean hasHeelMagic() {
         for (IMagic magic : this.magics) {
 
-            if (magic.isHeelable()) {
+            if (magic.isHealable()) {
                 return true;
             }
         }
@@ -72,14 +72,12 @@ public class MagicSet {
         }
     }
 
-    private void generateUsefulHeelableMagics(Status status) {
+    private void generateUsefulHealableMagics(Status status) {
         for (IMagic magic : this.magics) {
 
-            if (magic.isHeelable() 
-                && magic.isFullfillMp(status) 
-                && status.isEnoughLossForHealing(magic, status)) {
-                
-                    this.usefulHeelableMagics.add(magic);
+            if (magic.isHealable() && magic.isFullfillMp(status) && status.isEnoughLossForHealing(magic, status)) {
+
+                this.usefulHeelableMagics.add(magic);
             }
         }
     }
@@ -87,34 +85,42 @@ public class MagicSet {
     public IMagic getRandomUsefulAttackableMagic(Status status) {
         generateUsefulAttackableMagics(status);
 
+        IMagic result = null;
         int count = this.usefulAttackableMagics.size();
+        if (count == 0) return result;
+
         int randomIndex = ThreadLocalRandom.current().nextInt(count);
 
         int currentIndex = 0;
-        IMagic result = null;
         for (IMagic magic : this.usefulAttackableMagics) {
 
-            if (currentIndex == randomIndex) result = magic;
+            if (currentIndex == randomIndex)
+                result = magic;
             currentIndex++;
         }
 
+        this.usefulAttackableMagics.clear();
         return result;
     }
 
     public IMagic getRandomUsefulHeelableMagic(Status status) {
-        generateUsefulHeelableMagics(status);
+        generateUsefulHealableMagics(status);
 
+        IMagic result = null;
         int count = this.usefulHeelableMagics.size();
+        if (count == 0) return result;
+
         int randomIndex = ThreadLocalRandom.current().nextInt(count);
 
         int currentIndex = 0;
-        IMagic result = null;
         for (IMagic magic : this.usefulHeelableMagics) {
 
-            if (currentIndex == randomIndex) result = magic;
+            if (currentIndex == randomIndex)
+                result = magic;
             currentIndex++;
         }
 
+        this.usefulHeelableMagics.clear();
         return result;
     }
 }

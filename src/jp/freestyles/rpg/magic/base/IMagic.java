@@ -8,6 +8,6 @@ public interface IMagic {
     int getDamageValue();
 	boolean isFullfillMp(Status status);
     boolean isAttackable();
-    boolean isHeelable();
+    boolean isHealable();
 	int teachHowMuchHealHp();
 }

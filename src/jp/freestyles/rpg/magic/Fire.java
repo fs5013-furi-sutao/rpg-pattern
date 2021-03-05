@@ -52,7 +52,7 @@ public class Fire implements IMagic, Attackable {
     }
 
     @Override
-    public boolean isHeelable() {
+    public boolean isHealable() {
         return this instanceof Healable;
     }
 

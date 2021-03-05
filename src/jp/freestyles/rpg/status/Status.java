@@ -80,6 +80,11 @@ public class Status {
         if (this.hp < 0) this.hp = 0;
 	}
 
+    public void minusMp(int consumptionMp) {
+        this.mp -=consumptionMp;
+        if (this.mp < 0) this.mp = 0;
+	}
+
 	public boolean isEnoughLossForHealing(IMagic magic, Status status) {
 		return magic.teachHowMuchHealHp() < status.teachDecreasedHp();
 	}
@@ -90,5 +95,17 @@ public class Status {
 
 	public String outName() {
 		return this.name;
+	}
+
+    public int outHp() {
+		return this.hp;
+	}
+
+	public boolean isHpEmpty() {
+		return this.hp == 0;
+	}
+
+	public void plusHp(int hpForRecovery) {
+        this.hp += hpForRecovery;
 	}
 }

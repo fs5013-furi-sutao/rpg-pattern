@@ -2,21 +2,21 @@ package jp.freestyles.rpg.player.config;
 
 public enum PlayerConfig {
 
-    FIGHTER("戦士", 100, 100, 0), 
-    PRIEST("僧侶", 80, 80, 100), 
-    WIZARD("魔法使い", 70, 70, 200),;
+    FIGHTER("戦士", 100, 300, 0), 
+    PRIEST("僧侶", 50, 150, 100), 
+    WIZARD("魔法使い", 80, 200, 200),;
 
     private final String breed;
-    private final int maxHp;
-    private final int hp;
+    private final int maxHpMin;
+    private final int maxHpMax;
     private final int mp;
 
     private PlayerConfig(
-        String breed, int maxHp, int hp, int mp) {
+        String breed, int maxHpMin, int maxHpMax, int mp) {
 
         this.breed = breed;
-        this.maxHp = maxHp;
-        this.hp = hp;
+        this.maxHpMin = maxHpMin;
+        this.maxHpMax = maxHpMax;
         this.mp = mp;
     }
 
@@ -24,12 +24,12 @@ public enum PlayerConfig {
         return this.breed;
     }
 
-    public int maxHp() {
-        return this.maxHp;
+    public int maxHpMin() {
+        return this.maxHpMin;
     }
 
-    public int hp() {
-        return this.hp;
+    public int maxHpMax() {
+        return this.maxHpMax;
     }
 
     public int mp() {

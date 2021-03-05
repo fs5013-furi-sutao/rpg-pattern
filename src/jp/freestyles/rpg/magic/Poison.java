@@ -11,7 +11,7 @@ import static jp.freestyles.rpg.magic.config.MagicConfig.POISON;
 public class Poison implements IMagic, Attackable {
     
     private static final String MAGIC_NAME = POISON.outName();
-    private static final int CONSUMPTION_MP = 10;
+    private static final int CONSUMPTION_MP = 20;
 
     // 毒状態にする
     // 毒：毎ターン20のダメージを受ける
@@ -19,11 +19,14 @@ public class Poison implements IMagic, Attackable {
 
     private IMagicService service;
 
+    @Override
     public void effect(Status heroStatus, Status enemyStatus) {
         chant(heroStatus);
         int damage = getDamageValue();
         enemyStatus.minusHp(damage);
         showDamage(enemyStatus, damage);
+        heroStatus.minusMp(CONSUMPTION_MP);
+        System.out.println();
     }
 
     private void showDamage(Status enemyStatus, int damage) {
@@ -53,7 +56,7 @@ public class Poison implements IMagic, Attackable {
     }
 
     @Override
-    public boolean isHeelable() {
+    public boolean isHealable() {
         return this instanceof Healable;
     }
 

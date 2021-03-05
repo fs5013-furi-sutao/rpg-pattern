@@ -25,8 +25,8 @@ public class Wizard implements IPlayer {
         
         this.status = new Status.Builder(name)
             .breed(WIZARD.breed())
-            .maxHp(WIZARD.maxHp())
-            .hp(WIZARD.hp())
+            .maxHp(WIZARD.maxHpMin())
+            .hp(WIZARD.maxHpMax())
             .mp(WIZARD.mp())
             .build();
         
@@ -41,26 +41,47 @@ public class Wizard implements IPlayer {
         this.magics.addMagic(thunder);
     }
 
-    private void showStatus() {
-        String statusContents = this.status.getContents();
-        System.out.format("[%s] { %s } %n", this.name, statusContents);
+    @Override
+    public void showStatus() {
+        this.status.show();
     }
 
     public void attack(IPlayer enemy) {
 
-        showStatus();
+        showDaclareAttack();
 
-        if (this.magics.hasHeelMagic()) {
-            System.out.println("Heel が使えるよ");
+        IMagic heelableMagic = this.magics.getRandomUsefulHeelableMagic(this.status);
+        if (heelableMagic != null) {
+            heelableMagic.effect(this.status, enemy.outStatus());
+            return;
         }
 
-        //this.status.show();
+        IMagic attackableMagic = this.magics.getRandomUsefulAttackableMagic(this.status);
+        if (attackableMagic != null) {
+            attackableMagic.effect(this.status, enemy.outStatus());
+            return;
+        }
+
+        // this.status.show();
         this.service.attack(this.status, enemy.outStatus());
+    }
+
+    private void showDaclareAttack() {
+        System.out.format("%s の攻撃 %n", this.status.outName());
     }
 
     @Override
     public Status outStatus() {
         // TODO Auto-generated method stub
         return null;
+    }
+
+    public String outName() {
+        return this.name;
+    }
+
+    @Override
+    public boolean isDead() {
+        return this.status.isHpEmpty();
     }
 }
