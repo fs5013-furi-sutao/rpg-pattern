@@ -8,7 +8,6 @@ import jp.freestyles.rpg.magic.base.IMagic;
 import jp.freestyles.rpg.player.base.IPlayer;
 import jp.freestyles.rpg.service.base.IPlayerService;
 import jp.freestyles.rpg.status.Status;
-import static jp.freestyles.rpg.util.RandomParameterCreator.generateRandomValue;
 
 import static jp.freestyles.rpg.player.config.PlayerConfig.PRIEST;
 
@@ -21,14 +20,20 @@ public class Priest implements IPlayer {
 
     public Priest(IPlayerService service, String name) {
         this.service = service;
+            
+        int randomizedHp = PRIEST.randomHp();
+        int randomizedMp = PRIEST.randomMp();
 
-        int randomizedHp = 
-            generateRandomValue(PRIEST.maxHpMin(), PRIEST.maxHpMax());
         this.status = new Status.Builder(name)
             .breed(PRIEST.breed())
             .maxHp(randomizedHp)
             .hp(randomizedHp)
-            .mp(PRIEST.mp())
+            .maxMp(randomizedMp)
+            .mp(randomizedMp)
+            .str(PRIEST.randomStr())
+            .def(PRIEST.randomDef())
+            .luck(PRIEST.randomLuck())
+            .agi(PRIEST.randomAgi())
             .build();
 
         this.magics = new MagicSet();

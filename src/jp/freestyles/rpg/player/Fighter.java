@@ -9,21 +9,27 @@ import static jp.freestyles.rpg.player.config.PlayerConfig.FIGHTER;
 
 public class Fighter implements IPlayer {
 
-    private String name;
     private MagicSet magics;
     private Status status;
 
     private IPlayerService service;
 
     public Fighter(IPlayerService service, String name) {
-        this.name = name;
         this.service = service;
+        
+        int randomizedHp = FIGHTER.randomHp();
+        int randomizedMp = FIGHTER.randomMp();
         
         this.status = new Status.Builder(name)
             .breed(FIGHTER.breed())
-            .maxHp(FIGHTER.maxHpMin())
-            .hp(FIGHTER.maxHpMax())
-            .mp(FIGHTER.mp())
+            .maxHp(randomizedHp)
+            .hp(randomizedHp)
+            .maxMp(randomizedMp)
+            .mp(randomizedMp)
+            .str(FIGHTER.randomStr())
+            .def(FIGHTER.randomDef())
+            .luck(FIGHTER.randomLuck())
+            .agi(FIGHTER.randomAgi())
             .build();
         
         this.magics = new MagicSet();
@@ -46,10 +52,6 @@ public class Fighter implements IPlayer {
 
     public Status outStatus() {
         return this.status;
-    }
-
-    public String outName() {
-        return this.name;
     }
 
     public MagicSet outMagics() {

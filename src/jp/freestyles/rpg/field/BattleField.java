@@ -1,7 +1,7 @@
 package jp.freestyles.rpg.field;
 
 import jp.freestyles.rpg.injection.player.FighterInjector;
-import jp.freestyles.rpg.injection.player.PriestInjector;
+import jp.freestyles.rpg.injection.player.WizardInjector;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -26,15 +26,15 @@ public class BattleField {
         this.players = new ArrayList<>();
         this.playersForDisplaying = new ArrayList<>();
 
-        IPlayerServiceInjector priestInjector = new PriestInjector();
-        IPlayer priest = priestInjector.getPlayer("山本一郎");
+        IPlayerServiceInjector wizardInjector = new WizardInjector();
+        IPlayer wizard = wizardInjector.getPlayer("山本一郎");
 
         IPlayerServiceInjector fighterInjector = new FighterInjector();
         IPlayer fighter = fighterInjector.getPlayer("山田太郎");
 
-        this.players.add(priest);
+        this.players.add(wizard);
         this.players.add(fighter);
-        this.playersForDisplaying.add(priest);
+        this.playersForDisplaying.add(wizard);
         this.playersForDisplaying.add(fighter);
     }
 
