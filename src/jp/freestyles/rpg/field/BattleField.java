@@ -1,15 +1,15 @@
 package jp.freestyles.rpg.field;
 
-import jp.freestyles.rpg.injection.player.FighterInjector;
-import jp.freestyles.rpg.injection.player.WizardInjector;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.concurrent.ThreadLocalRandom;
 
 import jp.freestyles.rpg.injection.base.IPlayerServiceInjector;
+import jp.freestyles.rpg.injection.player.FighterInjector;
+import jp.freestyles.rpg.injection.player.WizardInjector;
 import jp.freestyles.rpg.player.base.IPlayer;
+
+import static jp.freestyles.rpg.util.RandomGenerator.generateRandomInt;
 
 public class BattleField {
 
@@ -43,7 +43,6 @@ public class BattleField {
         for (int i = 0; i < 10; i++) {
             showTurnCount();
             attackEachOther();
-            // priest.attack(fighter);
             if (hasDeadPlayer(players))
                 break;
             System.out.println();
@@ -78,7 +77,7 @@ public class BattleField {
         IPlayer enemy = null;
         while (!isMatch) {
             int count = this.players.size();
-            int randomIndex = ThreadLocalRandom.current().nextInt(count);
+            int randomIndex = generateRandomInt(count);
 
             enemy = this.players.get(randomIndex);
             if (!enemy.equals(hero))

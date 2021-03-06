@@ -1,6 +1,6 @@
 package jp.freestyles.rpg.player.config;
 
-import java.util.concurrent.ThreadLocalRandom;
+import static jp.freestyles.rpg.util.RandomGenerator.generateRandomIntInRange;
 
 public enum PlayerConfig {
 
@@ -79,33 +79,27 @@ public enum PlayerConfig {
     }
 
     public int randomHp() {
-        return ThreadLocalRandom.current()
-            .nextInt(this.maxHpMin, this.maxHpMax + 1);
+        return generateRandomIntInRange(this.maxHpMin, this.maxHpMax);
     }
 
     public int randomMp() {
-        return ThreadLocalRandom.current()
-            .nextInt(this.mpMin, this.mpMax + 1);
+        return generateRandomIntInRange(this.mpMin, this.mpMax);
     }
 
     public int randomStr() {
-        return ThreadLocalRandom.current()
-            .nextInt(this.strMin, this.strMax + 1);
+        return generateRandomIntInRange(this.strMin, this.strMax);
     }
 
     public int randomDef() {
-        return ThreadLocalRandom.current()
-            .nextInt(this.defMin, this.defMax + 1);
+        return generateRandomIntInRange(this.defMin, this.defMax);
     }
 
     public int randomLuck() {
-        return ThreadLocalRandom.current()
-            .nextInt(this.luckMin, this.luckMax + 1);
+        return generateRandomIntInRange(this.luckMin, this.luckMax);
     }
 
     public int randomAgi() {
-        return ThreadLocalRandom.current()
-            .nextInt(this.agiMin, this.agiMax + 1);
+        return generateRandomIntInRange(this.agiMin, this.agiMax);
     }
 
     public String breed() {

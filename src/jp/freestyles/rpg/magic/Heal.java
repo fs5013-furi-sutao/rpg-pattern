@@ -67,4 +67,16 @@ public class Heal implements IMagic, Healable {
         // TODO Auto-generated method stub
         return 0;
     }
+
+    @Override
+    public void showDamage(Status enemyStatus, int damage, int hpBeforeAttack, int hpAfterAttack) {
+        // TODO Auto-generated method stub
+        
+    }
+
+    @Override
+    public int getDamageValueInRange(int min, int max) {
+        // TODO Auto-generated method stub
+        return 0;
+    }
 }

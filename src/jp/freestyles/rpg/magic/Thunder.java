@@ -1,15 +1,16 @@
 package jp.freestyles.rpg.magic;
 
-import java.util.concurrent.ThreadLocalRandom;
-
 import jp.freestyles.rpg.magic.base.IMagic;
 import jp.freestyles.rpg.magic.type.Attackable;
 import jp.freestyles.rpg.magic.type.Healable;
 import jp.freestyles.rpg.service.base.IMagicService;
 import jp.freestyles.rpg.status.Status;
 
+import static jp.freestyles.rpg.magic.config.MagicConfig.THUNDER;
+
 public class Thunder implements IMagic, Attackable {
     
+    private static final String MAGIC_NAME = THUNDER.outName();
     private static final int CONSUMPTION_MP = 20;
 
     // 敵に 10 ～ 30 の防御無視ダメージ
@@ -22,8 +23,30 @@ public class Thunder implements IMagic, Attackable {
         this.service = service;
     }
 
-    public int getDamageValue() {
-        return ThreadLocalRandom.current().nextInt(MIN_DAMAGE, MAX_DAMAGE + 1);
+    @Override
+    public void effect(Status heroStatus, Status enemyStatus) {
+        chant(heroStatus);
+        int damage = getDamageValueInRange(MIN_DAMAGE, MAX_DAMAGE);
+        
+        int hpBeforeAttack = enemyStatus.outHp();
+        enemyStatus.minusHp(damage);
+        int hpAfterAttack = enemyStatus.outHp();
+        showDamage(enemyStatus, damage, hpBeforeAttack, hpAfterAttack);
+
+        heroStatus.minusMp(CONSUMPTION_MP);
+    }
+
+    public void showDamage(Status enemyStatus, int damage, int hpBeforeAttack,int hpAfterAttack) {
+        this.service.showDamage(enemyStatus, damage, hpBeforeAttack, hpAfterAttack);
+    }
+
+    public void chant(Status heroStatus) {
+        this.service.chant(heroStatus, MAGIC_NAME);
+    }
+
+    @Override
+    public int getDamageValueInRange(int min, int max) {
+        return this.service.getDamageValueInRange(min, max);
     }
 
     @Override
@@ -47,8 +70,8 @@ public class Thunder implements IMagic, Attackable {
     }
 
     @Override
-    public void effect(Status heroStatus, Status enemyStatus) {
+    public int getDamageValue() {
         // TODO Auto-generated method stub
-
+        return 0;
     }
 }

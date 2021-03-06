@@ -5,20 +5,31 @@ import jp.freestyles.rpg.status.Status;
 
 public class StandardPlayerService implements IPlayerService {
 
-    private static final int NORMAL_DAMAGE = 20;
-
     public void attack(Status heroStatus, Status enemyStatus) {
         chant(heroStatus);
-        int damage = getDamageValue();
+        int damage = getDamageValue(heroStatus, enemyStatus);
+        if (damage == 0) {
+            showNoDamage(enemyStatus);
+            return;
+        }
+
+        int hpBeforeAttack = enemyStatus.outHp();
         enemyStatus.minusHp(damage);
-        showDamage(enemyStatus, damage);      
-        System.out.println();
+        int hpAfterAttack = enemyStatus.outHp();
+        showDamage(enemyStatus, damage, hpBeforeAttack, hpAfterAttack);      
     }
 
-    private void showDamage(Status enemyStatus, int damage) {
+    private void showNoDamage(Status enemyStatus) {
         System.out.format(
-            "%s に %d のダメージを与えた %n", 
-            enemyStatus.outName(), damage);
+            "%s にダメージを与えられなかった %n%n", 
+            enemyStatus.outName());
+    }
+
+    private void showDamage(Status enemyStatus, int damage, int hpBeforeAttack,int hpAfterAttack) {
+        System.out.format(
+            "%s に %d のダメージを与えた (HP:%d -> %d) %n%n", 
+            enemyStatus.outName(), damage, 
+            hpBeforeAttack, hpAfterAttack);
     }
 
     public void chant(Status heroStatus) {
@@ -27,7 +38,7 @@ public class StandardPlayerService implements IPlayerService {
             heroStatus.outName());
     }
 
-    public int getDamageValue() {
-        return NORMAL_DAMAGE;
+    public int getDamageValue(Status heroStatus, Status enemyStatus) {
+        return Status.calcNormalAttackDamege(heroStatus, enemyStatus);
     }
 }

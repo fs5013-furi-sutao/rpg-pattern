@@ -1,7 +1,5 @@
 package jp.freestyles.rpg.magic;
 
-import java.util.concurrent.ThreadLocalRandom;
-
 import jp.freestyles.rpg.magic.base.IMagic;
 import jp.freestyles.rpg.magic.type.Attackable;
 import jp.freestyles.rpg.magic.type.Healable;
@@ -64,6 +62,18 @@ public class Paralyze implements IMagic, Attackable {
 
     @Override
     public int teachHowMuchHealHp() {
+        return 0;
+    }
+
+    @Override
+    public void showDamage(Status enemyStatus, int damage, int hpBeforeAttack, int hpAfterAttack) {
+        // TODO Auto-generated method stub
+        
+    }
+
+    @Override
+    public int getDamageValueInRange(int min, int max) {
+        // TODO Auto-generated method stub
         return 0;
     }
 }

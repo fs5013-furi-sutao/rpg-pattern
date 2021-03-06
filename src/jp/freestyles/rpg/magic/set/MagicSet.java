@@ -2,11 +2,12 @@ package jp.freestyles.rpg.magic.set;
 
 import java.util.HashSet;
 import java.util.Set;
-import java.util.concurrent.ThreadLocalRandom;
 
 import jp.freestyles.rpg.magic.base.IMagic;
 import jp.freestyles.rpg.magic.type.Attackable;
 import jp.freestyles.rpg.status.Status;
+
+import static jp.freestyles.rpg.util.RandomGenerator.generateRandomInt;
 
 public class MagicSet {
 
@@ -89,7 +90,7 @@ public class MagicSet {
         int count = this.usefulAttackableMagics.size();
         if (count == 0) return result;
 
-        int randomIndex = ThreadLocalRandom.current().nextInt(count);
+        int randomIndex = generateRandomInt(count);
 
         int currentIndex = 0;
         for (IMagic magic : this.usefulAttackableMagics) {
@@ -110,7 +111,7 @@ public class MagicSet {
         int count = this.usefulHeelableMagics.size();
         if (count == 0) return result;
 
-        int randomIndex = ThreadLocalRandom.current().nextInt(count);
+        int randomIndex = generateRandomInt(count);
 
         int currentIndex = 0;
         for (IMagic magic : this.usefulHeelableMagics) {
