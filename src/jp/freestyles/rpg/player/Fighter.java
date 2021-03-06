@@ -62,4 +62,9 @@ public class Fighter implements IPlayer {
     public boolean isDead() {
         return this.status.isHpEmpty();
     }
+
+    @Override
+    public void showDeadStatus() {
+        System.out.format("%s は力尽きた %n", this.status.outName());
+    }
 }

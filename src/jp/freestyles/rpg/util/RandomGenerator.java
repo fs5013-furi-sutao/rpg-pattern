@@ -10,4 +10,8 @@ public class RandomGenerator {
     public static int generateRandomIntInRange(int min, int max) {
         return ThreadLocalRandom.current().nextInt(min, max + 1);
     }
+
+    public static boolean isInRate(double rate) {
+        return ThreadLocalRandom.current().nextDouble() < rate;
+    }
 }

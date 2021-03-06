@@ -6,6 +6,7 @@ import java.util.List;
 
 import jp.freestyles.rpg.injection.base.IPlayerServiceInjector;
 import jp.freestyles.rpg.injection.player.FighterInjector;
+import jp.freestyles.rpg.injection.player.PriestInjector;
 import jp.freestyles.rpg.injection.player.WizardInjector;
 import jp.freestyles.rpg.player.base.IPlayer;
 
@@ -27,14 +28,19 @@ public class BattleField {
         this.playersForDisplaying = new ArrayList<>();
 
         IPlayerServiceInjector wizardInjector = new WizardInjector();
-        IPlayer wizard = wizardInjector.getPlayer("山本一郎");
+        IPlayer wizard = wizardInjector.getPlayer("ウィザード");
+
+        IPlayerServiceInjector priestInjector = new PriestInjector();
+        IPlayer priest = priestInjector.getPlayer("プリースト");
 
         IPlayerServiceInjector fighterInjector = new FighterInjector();
-        IPlayer fighter = fighterInjector.getPlayer("山田太郎");
+        IPlayer fighter = fighterInjector.getPlayer("ファイター");
 
         this.players.add(wizard);
+        this.players.add(priest);
         this.players.add(fighter);
         this.playersForDisplaying.add(wizard);
+        this.playersForDisplaying.add(priest);
         this.playersForDisplaying.add(fighter);
     }
 
@@ -43,7 +49,7 @@ public class BattleField {
         for (int i = 0; i < 10; i++) {
             showTurnCount();
             attackEachOther();
-            if (hasDeadPlayer(players))
+            if (hasDeadPlayer())
                 break;
             System.out.println();
             this.turnCount++;
@@ -59,7 +65,12 @@ public class BattleField {
 
             IPlayer enemy = pickUpRandomEnemy(hero);
             hero.attack(enemy);
-            if (hasDeadPlayer(players))
+
+            if (enemy.isDead()) {
+                enemy.showDeadStatus();
+            }
+
+            if (hasDeadPlayer())
                 break;
         }
     }
@@ -87,8 +98,15 @@ public class BattleField {
         return enemy;
     }
 
-    private boolean hasDeadPlayer(List<IPlayer> players) {
-        for (IPlayer player : players) {
+    // private boolean isExistsOnlyOneLivePlayer(List<IPlayer> players) {
+    //     int numsOfPlayers = this.players.size();
+
+        
+
+    // }
+
+    private boolean hasDeadPlayer() {
+        for (IPlayer player : this.players) {
             if (player.isDead())
                 return true;
         }

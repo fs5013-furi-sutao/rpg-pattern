@@ -1,7 +1,6 @@
 package jp.freestyles.rpg.magic;
 
 import jp.freestyles.rpg.magic.base.IMagic;
-import jp.freestyles.rpg.magic.type.Attackable;
 import jp.freestyles.rpg.magic.type.Healable;
 import jp.freestyles.rpg.service.base.IMagicService;
 import jp.freestyles.rpg.status.Status;
@@ -18,8 +17,12 @@ public class Heal implements IMagic, Healable {
 
     private IMagicService service;
 
+    public Heal(IMagicService service) {
+        this.service = service;
+    }
+
     public int teachHowMuchHealHp() {
-        return this.HP_FOR_RECOVERY;
+        return HP_FOR_RECOVERY;
     }
 
     @Override
@@ -29,12 +32,12 @@ public class Heal implements IMagic, Healable {
 
     @Override
     public boolean isAttackable() {
-        return this instanceof Attackable;
+        return this.service.isAttackable(this);
     }
 
     @Override
     public boolean isHealable() {
-        return this instanceof Healable;
+        return this.service.isHealable(this);
     }
 
     @Override
@@ -43,14 +46,13 @@ public class Heal implements IMagic, Healable {
         showRecoveriedValue(heroStatus, HP_FOR_RECOVERY);
         heroStatus.plusHp(HP_FOR_RECOVERY);
         heroStatus.minusMp(CONSUMPTION_MP);
-        System.out.println();
     }
 
     private void showRecoveriedValue(Status heroStatus, int hpForRecovery) {
         int currentHeroHp = heroStatus.outHp();
 
         System.out.format(
-            "%s の HP が %d から %d に回復した %n", 
+            "%s の HP が %d から %d に回復した %n%n", 
             heroStatus.outName(), 
             currentHeroHp,
             currentHeroHp + hpForRecovery);

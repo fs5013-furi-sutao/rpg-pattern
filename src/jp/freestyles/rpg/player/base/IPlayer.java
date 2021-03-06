@@ -8,4 +8,5 @@ public interface IPlayer {
     Status outStatus();
 	boolean isDead();
     void showStatus();
+    void showDeadStatus();
 }

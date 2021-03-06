@@ -17,6 +17,9 @@ public class Status {
     private int luck;
     private int agi;
 
+    private boolean isParalyzed;
+    private boolean isPoisoned;
+
     public static class Builder {
         private String name;
         private String breed;
@@ -104,6 +107,8 @@ public class Status {
         this.def = builder.def;
         this.luck = builder.luck;
         this.agi = builder.agi;
+        this.isParalyzed = false;
+        this.isPoisoned = false;
     }
 
 	public void show() {
@@ -115,13 +120,17 @@ public class Status {
 	}
 
 	public String getContents() {
+        String paralyzeStatus = isParalyzed ? "麻痺あり" : "麻痺なし";
+        String poisonedStatus = isPoisoned ? "毒あり" : "毒なし";
+
 		return String.format(
             "%s [%s] MaxHP=%d, HP=%d, MaxMp=%d, MP=%d, "
-            + "STR=%d, DEF=%d, LUCK=%d, AGI=%d", 
+            + "STR=%d, DEF=%d, LUCK=%d, AGI=%d, %s, %s", 
             this.name, this.breed, 
             this.maxHp, this.hp, 
             this.maxMp, this.mp,
-            this.str, this.def, this.luck, this.agi);
+            this.str, this.def, this.luck, this.agi,
+            paralyzeStatus, poisonedStatus);
 	}
 
 	public void minusHp(int damageValue) {
@@ -160,9 +169,14 @@ public class Status {
 
     public int outDef() {
         return this.def;
-    }   
+    }
 
-    public static int calcNormalAttackDamege(Status heroStatus, Status enemyStatus) {
+    public double outLuckRate() {
+        double rate = (double) this.luck / 100;
+        return rate;
+    }
+
+    public static int calcNormalAttackDamage(Status heroStatus, Status enemyStatus) {
         int damage = getRandomStr(heroStatus) - enemyStatus.outDef();
         damage = damage > 0 ? damage : 0;
         return damage;

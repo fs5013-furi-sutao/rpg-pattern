@@ -1,15 +1,16 @@
 package jp.freestyles.rpg.player;
 
-import jp.freestyles.rpg.magic.Heal;
 import jp.freestyles.rpg.magic.set.MagicSet;
-import jp.freestyles.rpg.magic.Paralyze;
-import jp.freestyles.rpg.magic.Poison;
 import jp.freestyles.rpg.magic.base.IMagic;
 import jp.freestyles.rpg.player.base.IPlayer;
 import jp.freestyles.rpg.service.base.IPlayerService;
 import jp.freestyles.rpg.status.Status;
 
 import static jp.freestyles.rpg.player.config.PlayerConfig.PRIEST;
+
+import jp.freestyles.rpg.injection.base.IMagicServiceInjector;
+import jp.freestyles.rpg.injection.magic.HealInjector;
+import jp.freestyles.rpg.injection.magic.PoisonInjector;
 
 public class Priest implements IPlayer {
 
@@ -37,9 +38,18 @@ public class Priest implements IPlayer {
             .build();
 
         this.magics = new MagicSet();
-        this.magics.addMagic(new Paralyze());
-        this.magics.addMagic(new Heal());
-        this.magics.addMagic(new Poison());
+
+        IMagicServiceInjector paralyzeInjector = new PoisonInjector();
+        IMagic paralyze = paralyzeInjector.getMagic();
+        this.magics.addMagic(paralyze);
+
+        IMagicServiceInjector healInjector = new HealInjector();
+        IMagic heal = healInjector.getMagic();
+        this.magics.addMagic(heal);
+
+        IMagicServiceInjector poisonInjector = new PoisonInjector();
+        IMagic poison = poisonInjector.getMagic();
+        this.magics.addMagic(poison);
     }
 
     @Override
@@ -63,7 +73,6 @@ public class Priest implements IPlayer {
             return;
         }
 
-        // this.status.show();
         this.service.attack(this.status, enemy.outStatus());
     }
 
@@ -79,5 +88,10 @@ public class Priest implements IPlayer {
     @Override
     public boolean isDead() {
         return this.status.isHpEmpty();
+    }
+
+    @Override
+    public void showDeadStatus() {
+        System.out.format("%s は力尽きた %n", this.status.outName());
     }
 }

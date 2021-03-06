@@ -2,7 +2,6 @@ package jp.freestyles.rpg.magic;
 
 import jp.freestyles.rpg.magic.base.IMagic;
 import jp.freestyles.rpg.magic.type.Attackable;
-import jp.freestyles.rpg.magic.type.Healable;
 import jp.freestyles.rpg.service.base.IMagicService;
 import jp.freestyles.rpg.status.Status;
 
@@ -57,12 +56,12 @@ public class Fire implements IMagic, Attackable {
 
     @Override
     public boolean isAttackable() {
-        return this instanceof Attackable;
+        return this.service.isAttackable(this);
     }
 
     @Override
     public boolean isHealable() {
-        return this instanceof Healable;
+        return this.service.isHealable(this);
     }
 
     @Override
@@ -72,7 +71,6 @@ public class Fire implements IMagic, Attackable {
 
     @Override
     public int getDamageValueInRange(int min, int max) {
-        // TODO Auto-generated method stub
-        return 0;
+        return this.service.getDamageValueInRange(min, max);
     }
 }
