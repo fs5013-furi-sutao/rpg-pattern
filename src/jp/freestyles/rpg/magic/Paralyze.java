@@ -32,14 +32,7 @@ public class Paralyze implements IMagic, Attackable {
         enemyStatus.beParalyzed();
         showParalyzedStatus(enemyStatus);
 
-        // int damage = getDamageValue();
-
-        // int hpBeforeAttack = enemyStatus.outHp();
-        // enemyStatus.minusHp(damage);
-        // int hpAfterAttack = enemyStatus.outHp();
-        // showDamage(enemyStatus, damage, hpBeforeAttack, hpAfterAttack);
-
-        // heroStatus.minusMp(CONSUMPTION_MP);
+        heroStatus.minusMp(CONSUMPTION_MP);
 
         whetherExtractParalyzedOrNot(enemyStatus);
         System.out.println();
@@ -47,13 +40,6 @@ public class Paralyze implements IMagic, Attackable {
 
     public static void effectMe(Status heroStatus) {
         chantMe(heroStatus);
-
-        // int damage = EVERY_ROUND_DAMAGE;
-
-        // int hpBeforeAttack = heroStatus.outHp();
-        // heroStatus.minusHp(damage);
-        // int hpAfterAttack = heroStatus.outHp();
-        // showMeDamage(heroStatus, damage, hpBeforeAttack, hpAfterAttack);
 
         whetherExtractParalyzedOrNot(heroStatus);
         System.out.println();
