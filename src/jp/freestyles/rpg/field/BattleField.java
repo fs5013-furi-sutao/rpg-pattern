@@ -1,7 +1,10 @@
 package jp.freestyles.rpg.field;
 
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import jp.freestyles.rpg.injection.base.IPlayerServiceInjector;
@@ -18,8 +21,10 @@ public class BattleField {
     private List<IPlayer> players;
     private List<IPlayer> playersForDisplaying;
 
+    private static final int TURN_OF_STARTING = 1;
+
     public BattleField() {
-        this.turnCount = 1;
+        this.turnCount = TURN_OF_STARTING;
         initPlayers();
     }
 
@@ -45,34 +50,69 @@ public class BattleField {
     }
 
     public void play() {
+        showStatusEachOther();
+        pressAnyKeyToContinue();
 
-        for (int i = 0; i < 10; i++) {
+        sortByAgiDesc();
+        while (!isExistsOnlyOneLivePlayer()) {
             showTurnCount();
             attackEachOther();
-            if (hasDeadPlayer())
-                break;
-            System.out.println();
+
+            pressAnyKeyToContinue();
             this.turnCount++;
         }
+
+        finishBattle();
+    }
+
+    private void pressAnyKeyToContinue() { 
+        System.out.println("続けるには Enter キーを押してください ...");
+        BufferedReader input = new BufferedReader(new InputStreamReader(System.in));
+        try {
+            input.readLine();
+        }  
+        catch(Exception e) {
+            e.printStackTrace();
+        }  
+    }
+
+    private void finishBattle() {
+        showEndResult(); 
+        findTheLastSurvivor().showSurvivedStatus();
+    }
+
+    private IPlayer findTheLastSurvivor() {
+        for (IPlayer player : players) {
+            if (!player.isDead()) return player;
+        }
+        return null;
     }
 
     private void attackEachOther() {
-
-        Collections.shuffle(this.players);
-        showStatusEachOther();
+        // Collections.shuffle(this.players);
 
         for (IPlayer hero : players) {
+
+            if (hero.isDead()) continue;
 
             IPlayer enemy = pickUpRandomEnemy(hero);
             hero.attack(enemy);
 
-            if (enemy.isDead()) {
-                enemy.showDeadStatus();
-            }
+            // if (enemy.isDead()) enemy.showDeadStatus();
 
-            if (hasDeadPlayer())
-                break;
+            if (isExistsOnlyOneLivePlayer()) break;
         }
+
+        showStatusEachOther();
+    }
+
+    private void sortByAgiDesc() {
+        Collections.sort( this.players, new Comparator<IPlayer>(){
+            @Override
+            public int compare(IPlayer a, IPlayer b){
+              return b.outStatus().outAgi() - a.outStatus().outAgi();
+            }
+        });
     }
 
     private void showStatusEachOther() {
@@ -88,33 +128,42 @@ public class BattleField {
         IPlayer enemy = null;
         while (!isMatch) {
             int count = this.players.size();
-            int randomIndex = generateRandomInt(count);
+            int randomIndex = 0;
 
-            enemy = this.players.get(randomIndex);
-            if (!enemy.equals(hero))
-                break;
+            do {
+                randomIndex = generateRandomInt(count);
+                enemy = this.players.get(randomIndex);
+            } while (this.players.get(randomIndex).isDead());
+
+            if (!enemy.equals(hero)) break;
         }
 
         return enemy;
     }
 
-    // private boolean isExistsOnlyOneLivePlayer(List<IPlayer> players) {
-    //     int numsOfPlayers = this.players.size();
-
+    private boolean isExistsOnlyOneLivePlayer() {
+        int liveOfplayersCount = 0;
+        for (IPlayer player : players) {
+            if (!player.isDead()) liveOfplayersCount++;
+        } 
         
-
-    // }
-
-    private boolean hasDeadPlayer() {
-        for (IPlayer player : this.players) {
-            if (player.isDead())
-                return true;
-        }
+        if (liveOfplayersCount == 1) return true;
         return false;
     }
+
+    // private boolean hasDeadPlayer() {
+    //     for (IPlayer player : this.players) {
+    //         if (player.isDead())
+    //             return true;
+    //     }
+    //     return false;
+    // }
 
     private void showTurnCount() {
         System.out.format("%d ターン目: ========== %n", this.turnCount);
     }
 
+    private void showEndResult() {
+        System.out.println("最終結果: ========== ");
+    }
 }

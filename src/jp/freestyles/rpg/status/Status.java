@@ -117,23 +117,42 @@ public class Status {
 
 	public boolean isFullFillMp(int consumptionMp) {
 		return this.mp >= consumptionMp;
-	}
+    }
+
+    public void showDaclareAttack() {
+        System.out.format("%s の攻撃 %n", this.name);
+    }
+    
+    public void showSurvivedStatus() {
+        System.out.format(
+            "%s %s が最後に生き残った %n", getStatusOfLiveMark(), this.name);
+    }
+
+    public void showDeadStatus() {
+        System.out.format("%s は力尽きた %n", this.name);
+    }
 
 	public String getContents() {
-        String paralyzeStatus = isParalyzed ? "麻痺あり" : "麻痺なし";
-        String poisonedStatus = isPoisoned ? "毒あり" : "毒なし";
+        String paralyzeStatus = isParalyzed ? "麻痺🆘" : "麻痺🆗";
+        String poisonedStatus = isPoisoned ? "毒🆘" : "毒🆗";
 
 		return String.format(
-            "%s [%s] MaxHP=%d, HP=%d, MaxMp=%d, MP=%d, "
-            + "STR=%d, DEF=%d, LUCK=%d, AGI=%d, %s, %s", 
+            "%s %s [%s: HP=%3d, MP=%2d, %s, %s] MaxHP=%3d, MaxMp=%2d, "
+            + "STR=%2d, DEF=%2d, LUCK=%2d, AGI=%2d", 
+            getStatusOfLiveMark(),
             this.name, this.breed, 
-            this.maxHp, this.hp, 
-            this.maxMp, this.mp,
-            this.str, this.def, this.luck, this.agi,
-            paralyzeStatus, poisonedStatus);
+            this.hp, this.mp,
+            paralyzeStatus, poisonedStatus,
+            this.maxHp, this.maxMp,
+            this.str, this.def, this.luck, this.agi);
 	}
 
-	public void minusHp(int damageValue) {
+	private String getStatusOfLiveMark() {
+        if (isHpEmpty()) return "💀";
+        return "😀";
+    }
+
+    public void minusHp(int damageValue) {
         this.hp -= damageValue;
         if (this.hp < 0) this.hp = 0;
 	}
@@ -171,6 +190,10 @@ public class Status {
         return this.def;
     }
 
+    public int outAgi() {
+        return this.agi;
+    }
+
     public double outLuckRate() {
         double rate = (double) this.luck / 100;
         return rate;
@@ -192,5 +215,29 @@ public class Status {
 
 	public void plusHp(int hpForRecovery) {
         this.hp += hpForRecovery;
-	}
+    }
+    
+    public void beParalyzed() {
+        this.isParalyzed = true;
+    }
+
+    public void bePoisoned() {
+        this.isPoisoned = true;
+    }
+
+    public boolean isParalyzed() {
+        return this.isParalyzed;
+    }
+
+    public boolean isPoisoned() {
+        return this.isPoisoned;
+    }
+
+    public void extractParalyzed() {
+        this.isParalyzed = false;
+    }
+
+    public void extractPoisoned() {
+        this.isPoisoned = false;
+    }
 }

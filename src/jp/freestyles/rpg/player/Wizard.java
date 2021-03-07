@@ -4,6 +4,8 @@ import jp.freestyles.rpg.injection.base.IMagicServiceInjector;
 import jp.freestyles.rpg.injection.magic.FireInjector;
 import jp.freestyles.rpg.injection.magic.ThunderInjector;
 import jp.freestyles.rpg.magic.set.MagicSet;
+import jp.freestyles.rpg.magic.Paralyze;
+import jp.freestyles.rpg.magic.Poison;
 import jp.freestyles.rpg.magic.base.IMagic;
 import jp.freestyles.rpg.player.base.IPlayer;
 import jp.freestyles.rpg.service.base.IPlayerService;
@@ -55,6 +57,14 @@ public class Wizard implements IPlayer {
     public void attack(IPlayer enemy) {
 
         showDaclareAttack();
+        if (this.status.isPoisoned()) {
+            Poison.effectMe(this.status);
+            return;
+        }
+        if (this.status.isParalyzed()) {
+            Paralyze.effectMe(this.status);
+            return;
+        }
 
         IMagic heelableMagic = this.magics.getRandomUsefulHeelableMagic(this.status);
         if (heelableMagic != null) {
@@ -69,10 +79,13 @@ public class Wizard implements IPlayer {
         }
 
         this.service.attack(this.status, enemy.outStatus());
+
+        if (enemy.isDead()) enemy.showDeadStatus();
+        System.out.println();
     }
 
     private void showDaclareAttack() {
-        System.out.format("%s の攻撃 %n", this.status.outName());
+        this.status.showDaclareAttack();
     }
 
     @Override
@@ -87,6 +100,11 @@ public class Wizard implements IPlayer {
 
     @Override
     public void showDeadStatus() {
-        System.out.format("%s は力尽きた %n", this.status.outName());
+        this.status.showDeadStatus();
+    }
+
+    @Override
+    public void showSurvivedStatus() {
+        this.status.showSurvivedStatus();
     }
 }

@@ -33,6 +33,7 @@ public class Thunder implements IMagic, Attackable {
         showDamage(enemyStatus, damage, hpBeforeAttack, hpAfterAttack);
 
         heroStatus.minusMp(CONSUMPTION_MP);
+        System.out.println();
     }
 
     public void showDamage(Status enemyStatus, int damage, int hpBeforeAttack,int hpAfterAttack) {

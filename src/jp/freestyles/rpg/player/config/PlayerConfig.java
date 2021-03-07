@@ -4,7 +4,7 @@ import static jp.freestyles.rpg.util.RandomGenerator.generateRandomIntInRange;
 
 public enum PlayerConfig {
 
-    FIGHTER("戦士", 
+    FIGHTER("戦士    ", 
         100, 300,  // HP
         0, 0,      // MP
         30, 100,   // STR
@@ -20,7 +20,7 @@ public enum PlayerConfig {
         1, 100,    // LUCK
         20, 60),   // AGI
 
-    PRIEST("僧侶", 
+    PRIEST("僧侶    ", 
         50, 150,   // HP
         20, 50,    // MP
         10, 70,    // STR

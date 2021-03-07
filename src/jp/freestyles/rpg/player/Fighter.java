@@ -1,5 +1,7 @@
 package jp.freestyles.rpg.player;
 
+import jp.freestyles.rpg.magic.Paralyze;
+import jp.freestyles.rpg.magic.Poison;
 import jp.freestyles.rpg.magic.set.MagicSet;
 import jp.freestyles.rpg.player.base.IPlayer;
 import jp.freestyles.rpg.status.Status;
@@ -38,7 +40,19 @@ public class Fighter implements IPlayer {
     public void attack(IPlayer enemy) {
 
         showDaclareAttack();
+        if (this.status.isPoisoned()) {
+            Poison.effectMe(this.status);
+            return;
+        }
+        if (this.status.isParalyzed()) {
+            Paralyze.effectMe(this.status);
+            return;
+        }
+
         this.service.attack(this.status, enemy.outStatus());
+
+        if (enemy.isDead()) enemy.showDeadStatus();
+        System.out.println();
     }
 
     @Override
@@ -47,7 +61,7 @@ public class Fighter implements IPlayer {
     }
 
     private void showDaclareAttack() {
-        System.out.format("%s の攻撃 %n", this.status.outName());
+        this.status.showDaclareAttack();
     }
 
     public Status outStatus() {
@@ -65,6 +79,11 @@ public class Fighter implements IPlayer {
 
     @Override
     public void showDeadStatus() {
-        System.out.format("%s は力尽きた %n", this.status.outName());
+        this.status.showDeadStatus();
+    }
+
+    @Override
+    public void showSurvivedStatus() {
+        this.status.showSurvivedStatus();
     }
 }

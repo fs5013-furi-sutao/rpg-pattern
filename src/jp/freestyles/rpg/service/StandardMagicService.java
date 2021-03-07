@@ -21,7 +21,7 @@ public class StandardMagicService implements IMagicService {
     @Override
     public void showDamage(Status enemyStatus, int damage, int hpBeforeAttack,int hpAfterAttack) {
         System.out.format(
-            "%s に %d のダメージを与えた (HP:%d -> %d) %n%n", 
+            "%s に %d のダメージを与えた (HP:%d -> %d) %n", 
             enemyStatus.outName(), damage, 
             hpBeforeAttack, hpAfterAttack);
     }

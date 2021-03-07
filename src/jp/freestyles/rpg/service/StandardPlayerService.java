@@ -40,11 +40,11 @@ public class StandardPlayerService implements IPlayerService {
     }
 
     private void showNoDamage(Status enemyStatus) {
-        System.out.format("%s にダメージを与えられなかった %n%n", enemyStatus.outName());
+        System.out.format("%s にダメージを与えられなかった %n", enemyStatus.outName());
     }
 
     private void showDamage(Status enemyStatus, int damage, int hpBeforeAttack, int hpAfterAttack) {
-        System.out.format("%s に %d のダメージを与えた (HP:%d -> %d) %n%n", enemyStatus.outName(), damage, hpBeforeAttack,
+        System.out.format("%s に %d のダメージを与えた (HP:%d -> %d) %n", enemyStatus.outName(), damage, hpBeforeAttack,
                 hpAfterAttack);
     }
 

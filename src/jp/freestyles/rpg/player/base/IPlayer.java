@@ -9,4 +9,5 @@ public interface IPlayer {
 	boolean isDead();
     void showStatus();
     void showDeadStatus();
+    void showSurvivedStatus();
 }

@@ -1,6 +1,8 @@
 package jp.freestyles.rpg.player;
 
 import jp.freestyles.rpg.magic.set.MagicSet;
+import jp.freestyles.rpg.magic.Paralyze;
+import jp.freestyles.rpg.magic.Poison;
 import jp.freestyles.rpg.magic.base.IMagic;
 import jp.freestyles.rpg.player.base.IPlayer;
 import jp.freestyles.rpg.service.base.IPlayerService;
@@ -10,6 +12,7 @@ import static jp.freestyles.rpg.player.config.PlayerConfig.PRIEST;
 
 import jp.freestyles.rpg.injection.base.IMagicServiceInjector;
 import jp.freestyles.rpg.injection.magic.HealInjector;
+import jp.freestyles.rpg.injection.magic.ParalyzeInjector;
 import jp.freestyles.rpg.injection.magic.PoisonInjector;
 
 public class Priest implements IPlayer {
@@ -39,7 +42,7 @@ public class Priest implements IPlayer {
 
         this.magics = new MagicSet();
 
-        IMagicServiceInjector paralyzeInjector = new PoisonInjector();
+        IMagicServiceInjector paralyzeInjector = new ParalyzeInjector();
         IMagic paralyze = paralyzeInjector.getMagic();
         this.magics.addMagic(paralyze);
 
@@ -60,6 +63,14 @@ public class Priest implements IPlayer {
     public void attack(IPlayer enemy) {
 
         showDaclareAttack();
+        if (this.status.isPoisoned()) {
+            Poison.effectMe(this.status);
+            return;
+        }
+        if (this.status.isParalyzed()) {
+            Paralyze.effectMe(this.status);
+            return;
+        }
 
         IMagic heelableMagic = this.magics.getRandomUsefulHeelableMagic(this.status);
         if (heelableMagic != null) {
@@ -74,10 +85,13 @@ public class Priest implements IPlayer {
         }
 
         this.service.attack(this.status, enemy.outStatus());
+
+        if (enemy.isDead()) enemy.showDeadStatus();
+        System.out.println();
     }
 
     private void showDaclareAttack() {
-        System.out.format("%s の攻撃 %n", this.status.outName());
+        this.status.showDaclareAttack();
     }
 
     @Override
@@ -92,6 +106,11 @@ public class Priest implements IPlayer {
 
     @Override
     public void showDeadStatus() {
-        System.out.format("%s は力尽きた %n", this.status.outName());
+        this.status.showDeadStatus();
+    }
+
+    @Override
+    public void showSurvivedStatus() {
+        this.status.showSurvivedStatus();
     }
 }
