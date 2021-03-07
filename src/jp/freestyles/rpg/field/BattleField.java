@@ -41,12 +41,27 @@ public class BattleField {
         IPlayerServiceInjector fighterInjector = new FighterInjector();
         IPlayer fighter = fighterInjector.getPlayer("ファイター");
 
+        IPlayerServiceInjector fighterInjector2 = new FighterInjector();
+        IPlayer fighter2 = fighterInjector2.getPlayer("ファイタ２");
+
+        IPlayerServiceInjector priestInjector2 = new PriestInjector();
+        IPlayer priest2 = priestInjector2.getPlayer("プリスト２");
+
+        IPlayerServiceInjector wizardInjector2 = new WizardInjector();
+        IPlayer wizard2 = wizardInjector2.getPlayer("ウィザド２");
+
         this.players.add(wizard);
         this.players.add(priest);
         this.players.add(fighter);
+        this.players.add(fighter2);
+        this.players.add(priest2);
+        this.players.add(wizard2);
         this.playersForDisplaying.add(wizard);
         this.playersForDisplaying.add(priest);
         this.playersForDisplaying.add(fighter);
+        this.playersForDisplaying.add(fighter2);
+        this.playersForDisplaying.add(priest2);
+        this.playersForDisplaying.add(wizard2);
     }
 
     public void play() {

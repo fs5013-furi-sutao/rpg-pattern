@@ -5,26 +5,26 @@ import static jp.freestyles.rpg.util.RandomGenerator.generateRandomIntInRange;
 public enum PlayerConfig {
 
     FIGHTER("戦士    ", 
-        100, 300,  // HP
+        130, 210,  // HP
         0, 0,      // MP
-        30, 100,   // STR
-        30, 100,   // DEF
+        20, 70,   // STR
+        20, 70,   // DEF
         1, 100,    // LUCK
-        1, 50),    // AGI
+        10, 50),    // AGI
 
     WIZARD("魔法使い", 
-        80, 200,   // HP
-        30, 80,    // MP
-        1, 50,     // STR
-        1, 50,     // DEF
+        110, 190,   // HP
+        80, 140,    // MP
+        20, 60,     // STR
+        10, 70,     // DEF
         1, 100,    // LUCK
         20, 60),   // AGI
 
     PRIEST("僧侶    ", 
-        50, 150,   // HP
-        20, 50,    // MP
-        10, 70,    // STR
-        10, 70,    // DEF
+        120, 200,   // HP
+        90, 140,    // MP
+        20, 60,    // STR
+        30, 60,    // DEF
         1, 100,    // LUCK
         20, 60),;  // AGI
 

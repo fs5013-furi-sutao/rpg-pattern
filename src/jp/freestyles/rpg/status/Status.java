@@ -2,7 +2,7 @@ package jp.freestyles.rpg.status;
 
 import jp.freestyles.rpg.magic.base.IMagic;
 
-import static jp.freestyles.rpg.util.RandomGenerator.generateRandomInt;
+import static jp.freestyles.rpg.util.RandomGenerator.generateRandomIntInRange;
 
 public class Status {
 
@@ -200,13 +200,17 @@ public class Status {
     }
 
     public static int calcNormalAttackDamage(Status heroStatus, Status enemyStatus) {
-        int damage = getRandomStr(heroStatus) - enemyStatus.outDef();
+        int damage = getRandomStr(heroStatus) - getRandomDef(enemyStatus);
         damage = damage > 0 ? damage : 0;
         return damage;
     }
 
 	private static int getRandomStr(Status heroStatus) {
-        return generateRandomInt(heroStatus.outStr());
+        return generateRandomIntInRange((int) (heroStatus.outStr() * 0.8), heroStatus.outStr());
+    }
+
+    private static int getRandomDef(Status enemyStatus) {
+        return generateRandomIntInRange((int) (enemyStatus.outDef() * 0.2), (int) (enemyStatus.outDef() * 0.8));
     }
 
     public boolean isHpEmpty() {
